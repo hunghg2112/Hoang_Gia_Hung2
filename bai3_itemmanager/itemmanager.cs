@@ -4,7 +4,6 @@ using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 
-// Lớp đối tượng lưu trữ dữ liệu trên RAM
 public class VatTu
 {
     public string MaVT { get; set; }
@@ -15,10 +14,8 @@ public class VatTu
 
 public class ItemListManagerForm : Form
 {
-    // Cấu trúc lưu trữ RAM
     private List<VatTu> _danhSachVatTu = new List<VatTu>();
 
-    // UI Controls
     private GroupBox grpLeft, grpRight;
     private TextBox txtMaVT, txtTenVT, txtDonGia;
     private ComboBox cboDonVi;
@@ -70,7 +67,6 @@ public class ItemListManagerForm : Form
         txtDonGia = new TextBox { Location = new Point(100, startY - 3), Width = 200 };
         grpLeft.Controls.Add(txtDonGia);
 
-        // Các nút chức năng (Height = 35 để không bị mất chữ trên Linux)
         startY += 60;
         btnAdd = new Button { Text = "Thêm mới", Location = new Point(20, startY), Size = new Size(130, 35), BackColor = Color.LightGreen };
         btnAdd.Click += BtnAdd_Click;
@@ -104,24 +100,21 @@ public class ItemListManagerForm : Form
             Location = new Point(15, 25),
             Size = new Size(450, 340),
             Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right,
-            View = View.Details, // Bật chế độ bảng
-            FullRowSelect = true, // Chọn nguyên dòng
+            View = View.Details, 
+            FullRowSelect = true, 
             GridLines = true
         };
         
-        // Thêm các cột
         lvItems.Columns.Add("Mã VT", 80);
         lvItems.Columns.Add("Tên VT", 160);
         lvItems.Columns.Add("Đơn vị", 80);
         lvItems.Columns.Add("Đơn giá", 120);
         
-        // Bắt sự kiện chọn dòng trên ListView
         lvItems.SelectedIndexChanged += LvItems_SelectedIndexChanged;
         
         grpRight.Controls.Add(lvItems);
     }
 
-    // Hàm phụ trợ: Làm sạch TextBox
     private void ClearInput()
     {
         txtMaVT.Clear();
@@ -131,7 +124,6 @@ public class ItemListManagerForm : Form
         txtMaVT.Focus();
     }
 
-    // 1. Chức năng: Thêm mới
     private void BtnAdd_Click(object sender, EventArgs e)
     {
         string ma = txtMaVT.Text.Trim();
@@ -149,18 +141,15 @@ public class ItemListManagerForm : Form
             return;
         }
 
-        // Validate: Không cho phép thêm nếu Mã VT đã tồn tại
         if (_danhSachVatTu.Any(v => v.MaVT.Equals(ma, StringComparison.OrdinalIgnoreCase)))
         {
             MessageBox.Show("Mã vật tư này đã tồn tại! Vui lòng nhập mã khác.", "Trùng lặp", MessageBoxButtons.OK, MessageBoxIcon.Error);
             return;
         }
 
-        // Thêm vào RAM
         var vt = new VatTu { MaVT = ma, TenVT = ten, DonVi = cboDonVi.Text, DonGia = gia };
         _danhSachVatTu.Add(vt);
 
-        // Đẩy lên ListView
         ListViewItem item = new ListViewItem(vt.MaVT);
         item.SubItems.Add(vt.TenVT);
         item.SubItems.Add(vt.DonVi);
@@ -170,7 +159,6 @@ public class ItemListManagerForm : Form
         ClearInput();
     }
 
-    // 2. Chức năng: Đổ dữ liệu ngược lại khi chọn dòng (Select)
     private void LvItems_SelectedIndexChanged(object sender, EventArgs e)
     {
         if (lvItems.SelectedItems.Count > 0)
@@ -180,12 +168,10 @@ public class ItemListManagerForm : Form
             txtTenVT.Text = item.SubItems[1].Text;
             cboDonVi.Text = item.SubItems[2].Text;
             
-            // Xóa dấu phẩy của định dạng N0 để đưa về số thuần túy vào textbox
             txtDonGia.Text = item.SubItems[3].Text.Replace(",", "").Replace(".", ""); 
         }
     }
 
-    // 3. Chức năng: Cập nhật
     private void BtnUpdate_Click(object sender, EventArgs e)
     {
         if (lvItems.SelectedItems.Count == 0)
@@ -205,12 +191,10 @@ public class ItemListManagerForm : Form
                 return;
             }
 
-            // Cập nhật RAM
             vt.TenVT = txtTenVT.Text.Trim();
             vt.DonVi = cboDonVi.Text;
             vt.DonGia = gia;
 
-            // Cập nhật UI ListView
             ListViewItem item = lvItems.SelectedItems[0];
             item.SubItems[1].Text = vt.TenVT;
             item.SubItems[2].Text = vt.DonVi;
@@ -220,7 +204,6 @@ public class ItemListManagerForm : Form
         }
     }
 
-    // 4. Chức năng: Xóa dòng với xác nhận Yes/No
     private void BtnDelete_Click(object sender, EventArgs e)
     {
         if (lvItems.SelectedItems.Count == 0)
@@ -235,16 +218,13 @@ public class ItemListManagerForm : Form
         {
             string ma = lvItems.SelectedItems[0].Text;
             
-            // Xóa khỏi RAM
             _danhSachVatTu.RemoveAll(v => v.MaVT == ma);
             
-            // Xóa khỏi ListView
             lvItems.SelectedItems[0].Remove();
             ClearInput();
         }
     }
 
-    // 5. Chức năng: Xóa toàn bộ
     private void BtnClearAll_Click(object sender, EventArgs e)
     {
         if (_danhSachVatTu.Count == 0) return;
@@ -259,7 +239,6 @@ public class ItemListManagerForm : Form
         }
     }
 
-    // Điểm Entry Point để chạy qua Mono
     [STAThread]
     public static void Main()
     {

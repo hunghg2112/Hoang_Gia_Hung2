@@ -8,6 +8,6 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = MyApp
-build_property.ProjectDir = /home/h1s0k3/Documents/laptrinhnet/MyApp/
+build_property.ProjectDir = /home/h1s0k3/Documents/laptrinhnet/8_10/bai4_slotbooking/
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 

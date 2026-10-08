@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/home/h1s0k3/Documents/laptrinhnet/MyApp/MyApp.csproj": {}
+    "/home/h1s0k3/Documents/laptrinhnet/8_10/bai5_deliverydashboard/MyApp.csproj": {}
   },
   "projects": {
-    "/home/h1s0k3/Documents/laptrinhnet/MyApp/MyApp.csproj": {
+    "/home/h1s0k3/Documents/laptrinhnet/8_10/bai5_deliverydashboard/MyApp.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/h1s0k3/Documents/laptrinhnet/MyApp/MyApp.csproj",
+        "projectUniqueName": "/home/h1s0k3/Documents/laptrinhnet/8_10/bai5_deliverydashboard/MyApp.csproj",
         "projectName": "MyApp",
-        "projectPath": "/home/h1s0k3/Documents/laptrinhnet/MyApp/MyApp.csproj",
+        "projectPath": "/home/h1s0k3/Documents/laptrinhnet/8_10/bai5_deliverydashboard/MyApp.csproj",
         "packagesPath": "/home/h1s0k3/.nuget/packages/",
-        "outputPath": "/home/h1s0k3/Documents/laptrinhnet/MyApp/obj/",
+        "outputPath": "/home/h1s0k3/Documents/laptrinhnet/8_10/bai5_deliverydashboard/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/home/h1s0k3/.nuget/NuGet/NuGet.Config"

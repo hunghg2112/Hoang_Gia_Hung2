@@ -5,20 +5,16 @@ using System.Windows.Forms;
 
 public class ITSupportTicketForm : Form
 {
-    // Khai báo các Controls
     private TextBox txtTicketId, txtRequester;
     private DateTimePicker dtpDate;
     
-    // Controls cho Mức độ ưu tiên
     private GroupBox grpPriority;
     private RadioButton rdoLow, rdoMedium, rdoHigh;
 
-    // Controls cho Phân loại & Thiết bị
     private ComboBox cboCategory;
     private GroupBox grpDevices;
     private CheckBox chkPC, chkLaptop, chkPrinter, chkPhone;
 
-    // Controls cho Hình ảnh
     private PictureBox picError;
     private Button btnLoadImage, btnSubmit, btnReset;
 
@@ -29,7 +25,6 @@ public class ITSupportTicketForm : Form
 
     private void SetupUI()
     {
-        // Cấu hình Form cơ bản
         this.Text = "Tiếp nhận & Phân loại sự cố IT";
         this.Size = new Size(500, 650);
         this.StartPosition = FormStartPosition.CenterScreen;
@@ -54,7 +49,6 @@ public class ITSupportTicketForm : Form
         dtpDate = new DateTimePicker { Location = new Point(140, startY - 3), Width = 200, Format = DateTimePickerFormat.Short };
         this.Controls.Add(dtpDate);
 
-        // GroupBox Mức độ ưu tiên (RadioButtons)
         startY += gapY;
         grpPriority = new GroupBox { Text = "Mức độ ưu tiên", Location = new Point(startX, startY), Size = new Size(420, 60) };
         rdoLow = new RadioButton { Text = "Thấp", Location = new Point(20, 25), AutoSize = true, Checked = true };
@@ -68,10 +62,9 @@ public class ITSupportTicketForm : Form
         this.Controls.Add(new Label { Text = "Loại sự cố:", Location = new Point(startX, startY), AutoSize = true });
         cboCategory = new ComboBox { Location = new Point(140, startY - 3), Width = 200, DropDownStyle = ComboBoxStyle.DropDownList };
         cboCategory.Items.AddRange(new string[] { "Phần cứng", "Phần mềm", "Mạng", "Tài khoản" });
-        cboCategory.SelectedIndex = 0; // Chọn mặc định dòng đầu tiên
+        cboCategory.SelectedIndex = 0; 
         this.Controls.Add(cboCategory);
 
-        // GroupBox Thiết bị ảnh hưởng (CheckBoxes)
         startY += gapY;
         grpDevices = new GroupBox { Text = "Thiết bị ảnh hưởng", Location = new Point(startX, startY), Size = new Size(420, 80) };
         chkPC = new CheckBox { Text = "Máy tính bàn", Location = new Point(20, 25), AutoSize = true };
@@ -81,7 +74,6 @@ public class ITSupportTicketForm : Form
         grpDevices.Controls.AddRange(new Control[] { chkPC, chkLaptop, chkPrinter, chkPhone });
         this.Controls.Add(grpDevices);
 
-        // PictureBox Ảnh chụp lỗi
         startY += 100;
         this.Controls.Add(new Label { Text = "Ảnh chụp lỗi:", Location = new Point(startX, startY), AutoSize = true });
         
@@ -90,11 +82,10 @@ public class ITSupportTicketForm : Form
             Location = new Point(140, startY), 
             Size = new Size(150, 150), 
             BorderStyle = BorderStyle.FixedSingle,
-            SizeMode = PictureBoxSizeMode.StretchImage // Đảm bảo ảnh tự co giãn vừa khung (StretchImage)
+            SizeMode = PictureBoxSizeMode.StretchImage  
         };
         this.Controls.Add(picError);
 
-        // Nút tải ảnh
         btnLoadImage = new Button { Text = "Tải ảnh lỗi", Location = new Point(310, startY), Size = new Size(100, 35) };
         btnLoadImage.Click += BtnLoadImage_Click;
         this.Controls.Add(btnLoadImage);
@@ -110,13 +101,12 @@ public class ITSupportTicketForm : Form
         this.Controls.Add(btnReset);
     }
 
-    // Sự kiện tải ảnh
     private void BtnLoadImage_Click(object sender, EventArgs e)
     {
         using (OpenFileDialog ofd = new OpenFileDialog())
         {
             ofd.Title = "Chọn ảnh lỗi";
-            ofd.Filter = "Image Files|*.jpg;*.jpeg;*.png"; // Lọc đuôi jpg, png
+            ofd.Filter = "Image Files|*.jpg;*.jpeg;*.png";  
             
             if (ofd.ShowDialog() == DialogResult.OK)
             {
@@ -125,31 +115,25 @@ public class ITSupportTicketForm : Form
         }
     }
 
-    // Sự kiện Gửi yêu cầu (Gom dữ liệu hiển thị MessageBox)
     private void BtnSubmit_Click(object sender, EventArgs e)
     {
-        // 1. Validate cơ bản
         if (string.IsNullOrWhiteSpace(txtTicketId.Text) || string.IsNullOrWhiteSpace(txtRequester.Text))
         {
             MessageBox.Show("Vui lòng nhập Mã phiếu và Người yêu cầu!", "Thiếu thông tin", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             return;
         }
 
-        // 2. Thu thập dữ liệu
         StringBuilder sb = new StringBuilder();
         sb.AppendLine("===== TÓM TẮT YÊU CẦU IT =====");
         sb.AppendLine($"- Mã phiếu: {txtTicketId.Text}");
         sb.AppendLine($"- Người yêu cầu: {txtRequester.Text}");
         sb.AppendLine($"- Ngày ghi nhận: {dtpDate.Value.ToString("dd/MM/yyyy")}");
         
-        // Mức độ ưu tiên (Radio)
         string priority = rdoLow.Checked ? "Thấp" : (rdoMedium.Checked ? "Trung bình" : "Khẩn cấp");
         sb.AppendLine($"- Mức độ ưu tiên: {priority}");
         
-        // Loại sự cố (Combo)
         sb.AppendLine($"- Loại sự cố: {cboCategory.SelectedItem.ToString()}");
         
-        // Thiết bị ảnh hưởng (Checkbox)
         sb.Append("- Thiết bị ảnh hưởng: ");
         bool hasDevice = false;
         if (chkPC.Checked) { sb.Append("Máy tính bàn, "); hasDevice = true; }
@@ -158,16 +142,14 @@ public class ITSupportTicketForm : Form
         if (chkPhone.Checked) { sb.Append("Điện thoại, "); hasDevice = true; }
         
         if (!hasDevice) sb.Append("Không có");
-        else sb.Length -= 2; // Xóa dấu phẩy và khoảng trắng dư ở cuối
+        else sb.Length -= 2; 
         
-        sb.AppendLine(); // Xuống dòng
+        sb.AppendLine(); 
         sb.AppendLine($"- Có ảnh đính kèm: {(picError.ImageLocation != null ? "Có" : "Không")}");
 
-        // 3. Hiển thị thông báo
         MessageBox.Show(sb.ToString(), "Thông tin Phiếu Hỗ Trợ", MessageBoxButtons.OK, MessageBoxIcon.Information);
     }
 
-    // Sự kiện Nhập lại (Reset form)
     private void BtnReset_Click(object sender, EventArgs e)
     {
         txtTicketId.Clear();
@@ -189,7 +171,6 @@ public class ITSupportTicketForm : Form
         txtTicketId.Focus();
     }
 
-    // Hàm Main để chạy ứng dụng độc lập trên Linux/Mono
     [STAThread]
     public static void Main()
     {
