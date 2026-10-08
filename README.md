@@ -10,7 +10,7 @@ Markdown
 ## 📁 Danh sách bài tập & Kết quả chạy
 
 ### 1. Bài 1: Calculator (`bai1_calculator`)
-![Kết quả Bài 1](./screenshots/bai1.png)
+![Kết quả Bài 1](./screenshots/bai1_calculator.png)
 
 ### 2. Bài 2: IT Support (`bai2_itsupport`)
 ![Kết quả Bài 2](./screenshots/bai2.png)
